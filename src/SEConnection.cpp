@@ -17,7 +17,7 @@ namespace seservice {
 	class SEConnection::Impl
 	{
 	private:
-		const char* fileName_ = "test.json";
+		const char* fileName_ = "connections.json";
 		boost::signals2::signal<errorCb_t> errorSignal_;
 		std::unordered_map<std::string, std::unique_ptr<ConnectionInfo>> connectionList_;
 
