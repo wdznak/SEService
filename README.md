@@ -7,9 +7,9 @@ Every exchange has its own thread. You can subscribe to multiple channels within
 
 ###### Code example
 ```C++
-// Both "errorQueue" and "messageQueue" should be thread safe
+// Both "handleError()" and "messageQueue" should be thread safe
 SEConnection connectionService{ [&](int connectionId, std::string message, ErrorCode errorCode) {
-  errorQueue.push(connectionId, message, errorCode);
+  handleError(connectionId, message, errorCode);
 } };
    
 int uniqueId = connectionService.connect(exchangeName, connectionId, [](int id, std::string message){
