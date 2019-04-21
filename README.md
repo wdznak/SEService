@@ -1,9 +1,9 @@
 # SEService
 
 *SEServise* is a library that allows user to connect to web socket streams of different cryptocurrency exchanges.
-Connections can be specified in the file "connections.json".
+Connections can be specified in the file "connections.json". File can be updated while program is running. Call to the "availableConnections()" will return updated list.
 
-Every exchange has its own thread. You can subscribe to multiple channels within one thread. When web socket receives a message it will pass it to the user by the provided callback function. If a connection is interrupted *SEService* will try to reconnect 4 times and on failure error callback function will be called with appropriate error code.
+Every exchange has its own thread. You can subscribe to multiple channels within one exchange(thread). When web socket receives a message it will pass it to the user by the provided callback function. If a connection is interrupted *SEService* will try to reconnect 4 times and on failure error callback function will be called with appropriate error code.
 
 ###### Code example
 ```C++
@@ -12,13 +12,13 @@ SEConnection connectionService{ [&](int connectionId, std::string message, Error
   errorQueue.push(connectionId, message, errorCode);
 } };
    
-connectionService.connect(exchangeName, connectionId, [](int id, std::string message){
+int uniqueId = connectionService.connect(exchangeName, connectionId, [](int id, std::string message){
   messageQueue.push(id, message);
 });
 
 ...
 // Later 
-connectionService.close(exchangeName, connectionId);
+connectionService.close(uniqueId, exchangeName);
 // Or connectionService.cloaseAll() to close all active connections
 
 ```
